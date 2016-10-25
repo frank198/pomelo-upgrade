@@ -9,5 +9,6 @@
   "nonew": true,
   "trailing": true,
   "smarttabs": true,
-  "noarg": true
+  "noarg": true,
+  "esversion":6
 }
