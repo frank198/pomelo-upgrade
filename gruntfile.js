@@ -40,7 +40,8 @@ module.exports = function(grunt)
 			jshint :
 			{
 				options : {
-					'esversion' : 6
+					'esversion' : 6,
+					'force':true
 				},
 				all : ['lib/*']
 			}
