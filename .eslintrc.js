@@ -9,6 +9,15 @@ module.exports = {
     "parserOptions": {
         "sourceType": "module"
     },
+    "globals":
+    {
+        it: true,
+        describe: true,
+        before: true,
+        after: true,
+        beforeEach: true,
+        afterEach: true,
+    },
     "rules": {
         "no-unsafe-finally": "error",
         "no-empty-function": "error",
