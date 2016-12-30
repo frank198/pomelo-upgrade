@@ -1,5 +1,5 @@
 var DEFAULT_PREFIX = 'POMELO:CHANNEL';
-var utils = require('../../lib/util/utils');
+var utils = require('../../lib/util/Utils');
 
 var MockManager = function(app, opts) {
   this.app = app;

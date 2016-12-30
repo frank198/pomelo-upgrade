@@ -1,6 +1,6 @@
 {
   "name": "pomelo-upgrade",
-  "version": "1.2.1",
+  "version": "1.2.4",
   "description": "网易Pomelo升级版本",
   "private": false,
   "homepage": "https://github.com/frank198/pomelo-upgrade#readme",
@@ -43,15 +43,15 @@
     "seq-queue": "0.0.5",
     "crc": "0.2.0",
     "cliff": "0.1.8",
-    "mkdirp": "0.3.3",
+    "mkdirp": "^0.5.1",
     "pomelo-loader-upgrade": "*",
-    "pomelo-rpc-upgrade": "*",
+    "pomelo-rpc-upgrade": "1.0.2",
     "pomelo-protocol": "0.1.6",
     "pomelo-admin": "0.4.5",
     "pomelo-logger": "0.1.7",
     "pomelo-scheduler": "0.3.9",
-    "ws": "*",
-    "socket.io": "*",
+    "ws": "^0.8.0",
+    "socket.io": "^0.9.16",
     "pomelo-protobuf": "0.4.0",
     "node-bignumber": "1.2.1",
     "commander": "2.0.0",
@@ -60,15 +60,16 @@
   },
 
   "devDependencies": {
-    "should": "3.3.1",
-    "mocha": ">=0.0.1",
-    "socket.io-client": "*",
-    "muk": ">=0.0.1",
+    "blanket": "~1.1.6",
     "grunt": "*",
-    "grunt-mocha-test": "*",
     "grunt-contrib-clean": "*",
-    "grunt-contrib-jshint": "*",
-    "blanket": "*"
+    "grunt-eslint": "*",
+    "grunt-mocha-test": "*",
+    "load-grunt-tasks": "^3.5.2",
+    "mocha": "*",
+    "muk": ">=0.0.1",
+    "should": "*",
+    "socket.io-client": "0.9.16"
   }
   
   

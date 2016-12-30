@@ -1,4 +1,4 @@
-var utils = require('../../lib/util/utils');
+var utils = require('../../lib/util/Utils');
 var should = require('should');
 
 describe('utils test', function() {

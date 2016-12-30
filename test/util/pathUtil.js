@@ -1,5 +1,5 @@
-var pathUtil = require('../../lib/util/pathUtil');
-var utils = require('../../lib/util/utils');
+var pathUtil = require('../../lib/util/PathUtil');
+var utils = require('../../lib/util/Utils');
 var should = require('should');
 var fs = require('fs');
 
@@ -55,7 +55,7 @@ describe('path util test', function() {
       should.exist(p);
       expectNames.length.should.equal(p.length);
       for(var i=0, l=expectNames.length; i<l; i++) {
-        p.should.include(expectNames[i]);
+        p.should.containEql(expectNames[i]);
       }
     });
 
