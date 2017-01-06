@@ -21,11 +21,11 @@ describe('console module test', function()
 {
 						flag = value;
 					},
-					addCrones : function(array)
+					addCrons : function(array)
 {
 						rs = array;
 					},
-					removeCrones : function(array)
+					removeCrons : function(array)
 {
 						rs = array;
 					},

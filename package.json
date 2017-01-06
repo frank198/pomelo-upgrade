@@ -1,6 +1,6 @@
 {
   "name": "pomelo-upgrade",
-  "version": "1.2.7",
+  "version": "1.2.9",
   "description": "网易Pomelo升级版本",
   "private": false,
   "homepage": "https://github.com/frank198/pomelo-upgrade#readme",
@@ -39,15 +39,15 @@
   },
 
   "dependencies": {
-    "async": ">=0.2.5",
+    "async": ">=2.1.4",
     "seq-queue": ">=0.0.5",
     "crc": ">=0.2.0",
-    "cliff": ">=0.1.8",
+    "cliff": ">=0.1.10",
     "mkdirp": ">=0.5.1",
     "pomelo-loader-upgrade": "*",
-    "pomelo-rpc-upgrade": ">=1.0.2",
+    "pomelo-rpc-upgrade": ">=0.0.2",
     "pomelo-protocol": "0.1.6",
-    "pomelo-admin-upgrade": ">=0.0.1",
+    "pomelo-admin-fresh": ">=0.0.1",
     "pomelo-logger": "0.1.7",
     "pomelo-scheduler": "0.3.9",
     "ws": ">=0.8.0",
