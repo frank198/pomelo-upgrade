@@ -1,5 +1,5 @@
-var pathUtil = require('../../lib/util/PathUtil');
-var utils = require('../../lib/util/Utils');
+var pathUtil = require('../../lib/util/pathUtil');
+var utils = require('../../lib/util/utils');
 var should = require('should');
 var fs = require('fs');
 
