@@ -2,7 +2,8 @@
 
 修改内容
 - es6 语法 
-- 升级 插件
+- 依赖库升级
+    - socket.io 1.7.x
 
 
 ## Pomelo -- a fast, scalable game server framework for node.js
