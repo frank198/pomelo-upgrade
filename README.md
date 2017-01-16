@@ -4,7 +4,9 @@
 - es6 语法 
 - 依赖库升级
     - socket.io 1.7.x
-
+## 使用说明
+- pomelo@1.x => pomelo-upgrade@1.x
+- pomelo@2.x => pomelo-upgrade@2.x
 
 ## Pomelo -- a fast, scalable game server framework for node.js
 
