@@ -11,6 +11,10 @@
 - pomelo@1.x => pomelo-upgrade@1.x
 - pomelo@2.x => pomelo-upgrade@2.x
 
+## 其他插件
+
+- 全局Channel: [pomeloGlobalChannel](https://github.com/frank198/pomeloGlobalChannel)
+
 ## Pomelo -- a fast, scalable game server framework for node.js
 
 Pomelo is a fast, scalable game server framework for [node.js](http://nodejs.org).
