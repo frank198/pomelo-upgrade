@@ -1,4 +1,4 @@
-var CreateCountDownLatch = require('../../lib/util/countDownLatch');
+var CreateCountDownLatch = require('../../lib/util/countDownLatch').createCountDownLatch;
 var should = require('should');
 
 var cbCreator = (function() {
