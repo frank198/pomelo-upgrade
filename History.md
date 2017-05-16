@@ -1,3 +1,7 @@
+1.4.11 / 2017-4-26
+=================
+  * [#2 运行报错(pomelo 命令错误)](https://github.com/frank198/pomelo-upgrade/issues/2)
+
 1.4.9 / 2017-4-26
 =================
   * [NEW] use es6 update var => let,const
