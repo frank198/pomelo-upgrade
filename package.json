@@ -1,64 +1,52 @@
 {
   "name": "pomelo-upgrade",
-  "version": "1.4.11",
+  "version": "1.5.0-dev",
   "description": "网易Pomelo升级版本",
   "private": false,
   "homepage": "https://github.com/frank198/pomelo-upgrade#readme",
-
   "scripts": {
     "test": "grunt"
   },
-
- "bugs": {
+  "bugs": {
     "url": "https://github.com/frank198/pomelo-upgrade/issues"
   },
-
   "repository": {
     "type": "git",
     "url": "https://github.com/frank198/pomelo-upgrade.git"
   },
-
   "licenses": [
     {
       "type": "MIT",
       "url": "https://github.com/frank198/pomelo-upgrade#license"
     }
   ],
-
   "keywords": [
-      "pomelo",
-      "framework",
-      "game",
-      "web",
-      "server",
-      "pomelo-upgrade"
-    ],
-
+    "pomelo",
+    "framework",
+    "game",
+    "web",
+    "server",
+    "pomelo-upgrade"
+  ],
   "bin": {
     "pomelo": "./bin/pomelo"
   },
-
   "dependencies": {
-    "lodash":"*",
-    "socket.io": "1.7.2",
-    "async": ">=2.1.4",
-    "seq-queue": ">=0.0.5",
-    "crc": "0.2.0",
-    "cliff": ">=0.1.10",
-    "mkdirp": ">=0.5.1",
+    "socket.io": "^2.0.3",
+    "async": "^2.5.x",
+    "crc": "^3.4.4",
     "pomelo-loader": "0.0.6",
     "pomelo-rpc": "1.0.7",
     "pomelo-protocol": "0.1.6",
     "pomelo-admin": "1.0.0",
     "pomelo-logger": "0.1.7",
     "pomelo-scheduler": "0.3.9",
-    "ws": ">=1.1.1",
+    "ws": "^3.1.0",
     "pomelo-protobuf": "0.4.0",
     "node-bignumber": ">=1.2.1",
     "commander": ">=2.0.0",
-    "mqtt": "*"
+    "mqtt": "^2.12.0"
   },
-
   "devDependencies": {
     "blanket": "~1.1.6",
     "grunt": "*",
@@ -71,6 +59,4 @@
     "should": "*",
     "socket.io-client": ">=1.7.1"
   }
-  
-  
 }
