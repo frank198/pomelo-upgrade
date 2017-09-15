@@ -522,7 +522,8 @@ function restart(opts) {
 }
 
 function connectToMaster(id, opts, cb) {
-	const client = new adminClient({username : opts.username,
+	const client = new adminClient({
+		username : opts.username,
 		password : opts.password,
 		md5      : true});
 	client.connect(id, opts.host, opts.port, function(err) {
