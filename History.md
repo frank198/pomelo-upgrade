@@ -1,3 +1,8 @@
+1.5.1 / 2017-9-18
+=================
+  * [NEW] 添加Cron updateCron 命令
+  * [NEW] 升级依赖库 ws mqtt
+
 1.4.11 / 2017-4-26
 =================
   * [#2 运行报错(pomelo 命令错误)](https://github.com/frank198/pomelo-upgrade/issues/2)
