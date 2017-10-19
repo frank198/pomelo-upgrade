@@ -1,6 +1,6 @@
 {
   "name": "pomelo-upgrade",
-  "version": "1.5.1",
+  "version": "2.0.0",
   "description": "网易Pomelo升级版本",
   "private": false,
   "homepage": "https://github.com/frank198/pomelo-upgrade#readme",
@@ -34,29 +34,30 @@
   "dependencies": {
     "async": "^2.5.x",
     "commander": ">=2.0.0",
-    "crc": "^3.4.4",
-    "mqtt": "^2.13.0",
+    "crc": "^3.5.0",
+    "mqtt": "^2.13.1",
     "node-bignumber": ">=1.2.1",
     "pomelo-admin": "1.0.0",
-    "pomelo-loader": "0.0.6",
+    "pomelo-loader-upgrade": "^0.0.2",
     "pomelo-logger": "0.1.7",
     "pomelo-protobuf": "0.4.0",
     "pomelo-protocol": "0.1.6",
-    "pomelo-rpc": "1.0.7",
+    "pomelo-rpc-upgrade": "^2.0.0",
     "pomelo-scheduler": "0.3.9",
     "socket.io": "^2.0.3",
     "ws": "^3.2.0"
   },
   "devDependencies": {
     "blanket": "~1.1.6",
+    "eslint": "^4.9.0",
     "grunt": "*",
     "grunt-contrib-clean": "*",
     "grunt-eslint": "^20.1.0",
-    "grunt-mocha-test": "*",
+    "grunt-mocha-test": "^0.13.3",
     "load-grunt-tasks": "^3.5.2",
     "mocha": "^3.5.3",
     "muk": ">=0.0.1",
-    "should": "^13.0.1",
+    "should": "^13.1.2",
     "socket.io-client": "^2.0.3"
   }
 }
