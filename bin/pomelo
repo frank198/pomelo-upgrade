@@ -7,6 +7,7 @@ const fs = require('fs'),
 	os = require('os'),
 	path = require('path'),
 	util = require('util'),
+	cliff = require('cliff'),
 	mkdirp = require('./mkdirp'),
 	co = require('../lib/modules/console'),
 	utils = require('../lib/util/utils'),
@@ -49,7 +50,8 @@ program.version(version);
 
 program.command('init [path]')
 	.description('create a new application')
-	.action(function(path) {
+	.action(function(path)
+	{
 		init(path || CUR_DIR);
 	});
 
@@ -60,7 +62,8 @@ program.command('start')
 	.option('-d, --directory, <directory>', 'the code directory', DEFAULT_GAME_SERVER_DIR)
 	.option('-t, --type <server-type>,', 'start server type')
 	.option('-i, --id <server-id>', 'start server id')
-	.action(function(opts) {
+	.action(function(opts)
+	{
 		start(opts);
 	});
 
@@ -70,7 +73,8 @@ program.command('list')
 	.option('-p, --password <password>', 'administration password', DEFAULT_PWD)
 	.option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
 	.option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
-	.action(function(opts) {
+	.action(function(opts)
+	{
 		list(opts);
 	});
 
@@ -80,7 +84,8 @@ program.command('add')
 	.option('-p, --password <password>', 'administration password', DEFAULT_PWD)
 	.option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
 	.option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
-	.action(function() {
+	.action(function()
+	{
 	  const args = [].slice.call(arguments, 0);
 	  const opts = args[args.length - 1];
 		opts.args = args.slice(0, -1);
@@ -93,7 +98,8 @@ program.command('stop')
 	.option('-p, --password <password>', 'administration password', DEFAULT_PWD)
 	.option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
 	.option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
-	.action(function() {
+	.action(function()
+	{
 	  const args = [].slice.call(arguments, 0);
 	  const opts = args[args.length - 1];
 		opts.serverIds = args.slice(0, -1);
@@ -107,7 +113,8 @@ program.command('kill')
 	.option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
 	.option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
 	.option('-f, --force', 'using this option would kill all the node processes')
-	.action(function() {
+	.action(function()
+	{
 	  const args = [].slice.call(arguments, 0);
 	  const opts = args[args.length - 1];
 		opts.serverIds = args.slice(0, -1);
@@ -122,19 +129,22 @@ program.command('restart')
 	.option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
 	.option('-t, --type <server-type>,', 'start server type')
 	.option('-i, --id <server-id>', 'start server id')
-	.action(function(opts) {
+	.action(function(opts)
+	{
 		restart(opts);
 	});
 
 program.command('masterha')
 	.description('start all the slaves of the master')
 	.option('-d, --directory <directory>', 'the code directory', DEFAULT_GAME_SERVER_DIR)
-	.action(function(opts) {
+	.action(function(opts)
+	{
 		startMasterha(opts);
 	});
 
 program.command('*')
-	.action(function() {
+	.action(function()
+	{
 		console.log(COMMAND_ERROR);
 	});
 
@@ -145,21 +155,29 @@ program.parse(process.argv);
  *
  * @param {String} path
  */
-function init(path) {
+function init(path)
+{
 	console.log(INIT_PROJ_NOTICE);
-	connectorType(function(type) {
-		emptyDirectory(path, function(empty) {
-			if (empty) {
+	connectorType(function(type)
+	{
+		emptyDirectory(path, function(empty)
+		{
+			if (empty)
+			{
 				process.stdin.destroy();
 				createApplicationAt(path, type);
 			}
-			else {
-				confirm('Destination is not empty, continue? (y/n) [no] ', function(force) {
+			else
+			{
+				confirm('Destination is not empty, continue? (y/n) [no] ', function(force)
+				{
 					process.stdin.destroy();
-					if (force) {
+					if (force)
+					{
 						createApplicationAt(path, type);
 					}
-					else {
+					else
+					{
 						abort('Fail to init a project'.red);
 					}
 				});
@@ -173,171 +191,186 @@ function init(path) {
  *
  * @param {String} ph
  */
-function createApplicationAt(ph, type) {
+function createApplicationAt(ph, type)
+{
 	const name = path.basename(path.resolve(CUR_DIR, ph));
 	copy(path.join(__dirname, '../template/'), ph);
 	mkdir(path.join(ph, 'game-server/logs'));
 	mkdir(path.join(ph, 'shared'));
 	// rmdir -r
-	const rmdir = function(dir) {
+	const rmdir = function(dir)
+	{
 		const list = fs.readdirSync(dir);
-		for (let i = 0; i < list.length; i++) {
+		for (let i = 0; i < list.length; i++)
+		{
 			const filename = path.join(dir, list[i]);
 			const stat = fs.statSync(filename);
-			if (filename === '.' || filename === '..') {
+			if (filename === '.' || filename === '..')
+			{
 			}
-			else if (stat.isDirectory()) {
+			else if (stat.isDirectory())
+			{
 				rmdir(filename);
 			}
-			else {
+			else
+			{
 				fs.unlinkSync(filename);
 			}
 		}
 		fs.rmdirSync(dir);
 	};
-	setTimeout(() => {
+	setTimeout(() =>
+	{
 		let unLinkFiles = [];
-		switch (type) {
-		case '1':
+		switch (type)
 		{
+			case '1':
+			{
 			// use websocket
-			unLinkFiles = ['game-server/app.js.sio',
-				'game-server/app.js.wss',
-				'game-server/app.js.mqtt',
-				'game-server/app.js.sio.wss',
-				'game-server/app.js.udp',
-				'web-server/app.js.https',
-				'web-server/public/index.html.sio',
-				'web-server/public/js/lib/pomeloclient.js',
-				'web-server/public/js/lib/pomeloclient.js.wss',
-				'web-server/public/js/lib/build/build.js.wss',
-				'web-server/public/js/lib/socket.io.js'];
-			for (let i = 0; i < unLinkFiles.length; ++i) {
-				fs.unlinkSync(path.resolve(ph, unLinkFiles[i]));
+				unLinkFiles = ['game-server/app.js.sio',
+					'game-server/app.js.wss',
+					'game-server/app.js.mqtt',
+					'game-server/app.js.sio.wss',
+					'game-server/app.js.udp',
+					'web-server/app.js.https',
+					'web-server/public/index.html.sio',
+					'web-server/public/js/lib/pomeloclient.js',
+					'web-server/public/js/lib/pomeloclient.js.wss',
+					'web-server/public/js/lib/build/build.js.wss',
+					'web-server/public/js/lib/socket.io.js'];
+				for (let i = 0; i < unLinkFiles.length; ++i)
+				{
+					fs.unlinkSync(path.resolve(ph, unLinkFiles[i]));
+				}
+				break;
 			}
-			break;
-		}
-		case '2':
-		{
+			case '2':
+			{
 			// use socket.io
-			unlinkFiles = ['game-server/app.js',
-				'game-server/app.js.wss',
-				'game-server/app.js.udp',
-				'game-server/app.js.mqtt',
-				'game-server/app.js.sio.wss',
-				'web-server/app.js.https',
-				'web-server/public/index.html',
-				'web-server/public/js/lib/component.json',
-				'web-server/public/js/lib/pomeloclient.js.wss'];
-			for (let i = 0; i < unlinkFiles.length; ++i) {
-				fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+				unlinkFiles = ['game-server/app.js',
+					'game-server/app.js.wss',
+					'game-server/app.js.udp',
+					'game-server/app.js.mqtt',
+					'game-server/app.js.sio.wss',
+					'web-server/app.js.https',
+					'web-server/public/index.html',
+					'web-server/public/js/lib/component.json',
+					'web-server/public/js/lib/pomeloclient.js.wss'];
+				for (let i = 0; i < unlinkFiles.length; ++i)
+				{
+					fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+				}
+
+				fs.renameSync(path.resolve(ph, 'game-server/app.js.sio'), path.resolve(ph, 'game-server/app.js'));
+				fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
+
+				rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+				rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+				break;
 			}
-
-			fs.renameSync(path.resolve(ph, 'game-server/app.js.sio'), path.resolve(ph, 'game-server/app.js'));
-			fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
-
-			rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
-			rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
-			break;
-		}
-		case '3':
-		{
+			case '3':
+			{
 			// use websocket wss
-			unLinkFiles = ['game-server/app.js.sio',
-				'game-server/app.js',
-				'game-server/app.js.udp',
-				'game-server/app.js.sio.wss',
-				'game-server/app.js.mqtt',
-				'web-server/app.js',
-				'web-server/public/index.html.sio',
-				'web-server/public/js/lib/pomeloclient.js',
-				'web-server/public/js/lib/pomeloclient.js.wss',
-				'web-server/public/js/lib/build/build.js',
-				'web-server/public/js/lib/socket.io.js'];
-			for (let i = 0; i < unLinkFiles.length; ++i) {
-				fs.unlinkSync(path.resolve(ph, unLinkFiles[i]));
+				unLinkFiles = ['game-server/app.js.sio',
+					'game-server/app.js',
+					'game-server/app.js.udp',
+					'game-server/app.js.sio.wss',
+					'game-server/app.js.mqtt',
+					'web-server/app.js',
+					'web-server/public/index.html.sio',
+					'web-server/public/js/lib/pomeloclient.js',
+					'web-server/public/js/lib/pomeloclient.js.wss',
+					'web-server/public/js/lib/build/build.js',
+					'web-server/public/js/lib/socket.io.js'];
+				for (let i = 0; i < unLinkFiles.length; ++i)
+				{
+					fs.unlinkSync(path.resolve(ph, unLinkFiles[i]));
+				}
+
+				fs.renameSync(path.resolve(ph, 'game-server/app.js.wss'), path.resolve(ph, 'game-server/app.js'));
+				fs.renameSync(path.resolve(ph, 'web-server/app.js.https'), path.resolve(ph, 'web-server/app.js'));
+				fs.renameSync(path.resolve(ph, 'web-server/public/js/lib/build/build.js.wss'), path.resolve(ph, 'web-server/public/js/lib/build/build.js'));
+				break;
 			}
 
-			fs.renameSync(path.resolve(ph, 'game-server/app.js.wss'), path.resolve(ph, 'game-server/app.js'));
-			fs.renameSync(path.resolve(ph, 'web-server/app.js.https'), path.resolve(ph, 'web-server/app.js'));
-			fs.renameSync(path.resolve(ph, 'web-server/public/js/lib/build/build.js.wss'), path.resolve(ph, 'web-server/public/js/lib/build/build.js'));
-			break;
-		}
-
-		case '4':
-		{
+			case '4':
+			{
 			// use socket.io wss
-			unLinkFiles = ['game-server/app.js.sio',
-				'game-server/app.js',
-				'game-server/app.js.udp',
-				'game-server/app.js.wss',
-				'game-server/app.js.mqtt',
-				'web-server/app.js',
-				'web-server/public/index.html',
-				'web-server/public/js/lib/pomeloclient.js'];
-			for (let i = 0; i < unLinkFiles.length; ++i) {
-				fs.unlinkSync(path.resolve(ph, unLinkFiles[i]));
+				unLinkFiles = ['game-server/app.js.sio',
+					'game-server/app.js',
+					'game-server/app.js.udp',
+					'game-server/app.js.wss',
+					'game-server/app.js.mqtt',
+					'web-server/app.js',
+					'web-server/public/index.html',
+					'web-server/public/js/lib/pomeloclient.js'];
+				for (let i = 0; i < unLinkFiles.length; ++i)
+				{
+					fs.unlinkSync(path.resolve(ph, unLinkFiles[i]));
+				}
+
+				fs.renameSync(path.resolve(ph, 'game-server/app.js.sio.wss'), path.resolve(ph, 'game-server/app.js'));
+				fs.renameSync(path.resolve(ph, 'web-server/app.js.https'), path.resolve(ph, 'web-server/app.js'));
+				fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
+				fs.renameSync(path.resolve(ph, 'web-server/public/js/lib/pomeloclient.js.wss'), path.resolve(ph, 'web-server/public/js/lib/pomeloclient.js'));
+
+				rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+				rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+				fs.unlinkSync(path.resolve(ph, 'web-server/public/js/lib/component.json'));
+				break;
 			}
-
-			fs.renameSync(path.resolve(ph, 'game-server/app.js.sio.wss'), path.resolve(ph, 'game-server/app.js'));
-			fs.renameSync(path.resolve(ph, 'web-server/app.js.https'), path.resolve(ph, 'web-server/app.js'));
-			fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
-			fs.renameSync(path.resolve(ph, 'web-server/public/js/lib/pomeloclient.js.wss'), path.resolve(ph, 'web-server/public/js/lib/pomeloclient.js'));
-
-			rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
-			rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
-			fs.unlinkSync(path.resolve(ph, 'web-server/public/js/lib/component.json'));
-			break;
-		}
-		case '5':
-		{
+			case '5':
+			{
 			// use socket.io wss
-			const unLinkFiles = ['game-server/app.js.sio',
-				'game-server/app.js',
-				'game-server/app.js.wss',
-				'game-server/app.js.mqtt',
-				'game-server/app.js.sio.wss',
-				'web-server/app.js.https',
-				'web-server/public/index.html',
-				'web-server/public/js/lib/component.json',
-				'web-server/public/js/lib/pomeloclient.js.wss'];
-			for (let i = 0; i < unLinkFiles.length; ++i) {
-				fs.unlinkSync(path.resolve(ph, unLinkFiles[i]));
-			}
+				const unLinkFiles = ['game-server/app.js.sio',
+					'game-server/app.js',
+					'game-server/app.js.wss',
+					'game-server/app.js.mqtt',
+					'game-server/app.js.sio.wss',
+					'web-server/app.js.https',
+					'web-server/public/index.html',
+					'web-server/public/js/lib/component.json',
+					'web-server/public/js/lib/pomeloclient.js.wss'];
+				for (let i = 0; i < unLinkFiles.length; ++i)
+				{
+					fs.unlinkSync(path.resolve(ph, unLinkFiles[i]));
+				}
 
-			fs.renameSync(path.resolve(ph, 'game-server/app.js.udp'), path.resolve(ph, 'game-server/app.js'));
-			rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
-			rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
-			break;
-		}
-		case '6':
-		{
+				fs.renameSync(path.resolve(ph, 'game-server/app.js.udp'), path.resolve(ph, 'game-server/app.js'));
+				rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+				rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+				break;
+			}
+			case '6':
+			{
 				// use socket.io
-			unLinkFiles = ['game-server/app.js',
-				'game-server/app.js.wss',
-				'game-server/app.js.udp',
-				'game-server/app.js.sio',
-				'game-server/app.js.sio.wss',
-				'web-server/app.js.https',
-				'web-server/public/index.html',
-				'web-server/public/js/lib/component.json',
-				'web-server/public/js/lib/pomeloclient.js.wss'];
-			for (let i = 0; i < unLinkFiles.length; ++i) {
-				fs.unlinkSync(path.resolve(ph, unLinkFiles[i]));
+				unLinkFiles = ['game-server/app.js',
+					'game-server/app.js.wss',
+					'game-server/app.js.udp',
+					'game-server/app.js.sio',
+					'game-server/app.js.sio.wss',
+					'web-server/app.js.https',
+					'web-server/public/index.html',
+					'web-server/public/js/lib/component.json',
+					'web-server/public/js/lib/pomeloclient.js.wss'];
+				for (let i = 0; i < unLinkFiles.length; ++i)
+				{
+					fs.unlinkSync(path.resolve(ph, unLinkFiles[i]));
+				}
+
+				fs.renameSync(path.resolve(ph, 'game-server/app.js.mqtt'), path.resolve(ph, 'game-server/app.js'));
+				fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
+
+				rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+				rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+				break;
 			}
-
-			fs.renameSync(path.resolve(ph, 'game-server/app.js.mqtt'), path.resolve(ph, 'game-server/app.js'));
-			fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
-
-			rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
-			rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
-			break;
-		}
 		}
 		const replaceFiles = ['game-server/app.js',
 			'game-server/package.json',
 			'web-server/package.json'];
-		for (let j = 0; j < replaceFiles.length; j++) {
+		for (let j = 0; j < replaceFiles.length; j++)
+		{
 	        const str = fs.readFileSync(path.resolve(ph, replaceFiles[j])).toString();
 			fs.writeFileSync(path.resolve(ph, replaceFiles[j]), str.replace('$', name));
 		}
@@ -352,36 +385,44 @@ function createApplicationAt(ph, type) {
  *
  * @param {Object} opts options for `start` operation
  */
-function start(opts) {
+function start(opts)
+{
 	const absScript = path.resolve(opts.directory, 'app.js');
-	if (!fs.existsSync(absScript)) {
+	if (!fs.existsSync(absScript))
+	{
 		abort(SCRIPT_NOT_FOUND);
 	}
 
 	const logDir = path.resolve(opts.directory, 'logs');
-	if (!fs.existsSync(logDir)) {
+	if (!fs.existsSync(logDir))
+	{
 		fs.mkdir(logDir);
 	}
   
 	let ls;
 	const type = opts.type || constants.RESERVED.ALL;
 	const params = [absScript, `env=${opts.env}`, `type=${type}`];
-	if (opts.id) {
+	if (opts.id)
+	{
 		params.push(`startId=${opts.id}`);
 	}
-	if (opts.daemon) {
+	if (opts.daemon)
+	{
 		ls = spawn(process.execPath, params, {detached : true,
 			stdio    : 'ignore'});
 		ls.unref();
 		console.log(DAEMON_INFO);
 		process.exit(0);
 	}
-	else {
+	else
+	{
 		ls = spawn(process.execPath, params);
-		ls.stdout.on('data', function(data) {
+		ls.stdout.on('data', function(data)
+		{
 			console.log(data.toString());
 		});
-		ls.stderr.on('data', function(data) {
+		ls.stderr.on('data', function(data)
+		{
 			console.log(data.toString());
 		});
 	}
@@ -392,28 +433,38 @@ function start(opts) {
  *
  * @param {Object} opts options for `list` operation
  */
-function list(opts) {
+function list(opts)
+{
 	const id = `pomelo_list_${Date.now()}`;
-	connectToMaster(id, opts, function(client) {
-		client.request(co.moduleId, {signal: 'list'}, function(err, data) {
-			if (err) {
+	connectToMaster(id, opts, function(client)
+	{
+		client.request(co.moduleId, {signal: 'list'}, function(err, data)
+		{
+			if (err)
+			{
 				console.error(err);
 			}
 			const servers = [];
-			for (const key in data.msg) {
+			for (const key in data.msg)
+			{
 				servers.push(data.msg[key]);
 			}
-			const comparer = (a, b) => {
-				if (a.serverType < b.serverType) {
+			const comparer = (a, b) =>
+			{
+				if (a.serverType < b.serverType)
+				{
 					return -1;
 				}
-				else if (a.serverType > b.serverType) {
+				else if (a.serverType > b.serverType)
+				{
 					return 1;
 				}
-				else if (a.serverId < b.serverId) {
+				else if (a.serverId < b.serverId)
+				{
 					return -1;
 				}
-				else if (a.serverId > b.serverId) {
+				else if (a.serverId > b.serverId)
+				{
 					return 1;
 				}
 				
@@ -423,9 +474,11 @@ function list(opts) {
 			servers.sort(comparer);
 			const rows = [];
 			rows.push(['serverId', 'serverType', 'pid', 'rss(M)', 'heapTotal(M)', 'heapUsed(M)', 'uptime(m)']);
-			servers.forEach(function(server) {
+			servers.forEach(function(server)
+			{
 				rows.push([server.serverId, server.serverType, server.pid, server.rss, server.heapTotal, server.heapUsed, server.uptime]);
 			});
+			console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'cyan', 'magenta', 'white', 'yellow']));
 			process.exit(0);
 		});
 	});
@@ -436,15 +489,20 @@ function list(opts) {
  *
  * @param {Object} opts options for `add` operation
  */
-function add(opts) {
+function add(opts)
+{
 	const id = `pomelo_add_${Date.now()}`;
-	connectToMaster(id, opts, function(client) {
+	connectToMaster(id, opts, function(client)
+	{
 		client.request(co.moduleId, {signal : 'add',
-			args   : opts.args}, function(err) {
-			if (err) {
+			args   : opts.args}, function(err)
+		{
+			if (err)
+			{
 				console.error(err);
 			}
-			else {
+			else
+			{
 				console.info(ADD_SERVER_INFO);
 			}
 			process.exit(0);
@@ -458,33 +516,43 @@ function add(opts) {
  * @param {String} signal stop/kill
  * @param {Object} opts options for `stop/kill` operation
  */
-function terminal(signal, opts) {
+function terminal(signal, opts)
+{
 	console.info(CLOSEAPP_INFO);
 	// option force just for `kill`
-	if (opts.force) {
-		if (os.platform() === constants.PLATFORM.WIN) {
+	if (opts.force)
+	{
+		if (os.platform() === constants.PLATFORM.WIN)
+		{
 			exec(KILL_CMD_WIN);
 		}
-		else {
+		else
+		{
 			exec(KILL_CMD_LUX);
 		}
 		process.exit(1);
 		return;
 	}
 	const id = `pomelo_terminal_${Date.now()}`;
-	connectToMaster(id, opts, function(client) {
+	connectToMaster(id, opts, function(client)
+	{
 		client.request(co.moduleId, {
 			signal : signal,
 			ids    : opts.serverIds
-		}, function(err, msg) {
-			if (err) {
+		}, function(err, msg)
+		{
+			if (err)
+			{
 				console.error(err);
 			}
-			if (signal === 'kill') {
-				if (msg.code === 'ok') {
+			if (signal === 'kill')
+			{
+				if (msg.code === 'ok')
+				{
 					console.log('All the servers have been terminated!');
 				}
-				else {
+				else
+				{
 					console.log('There may be some servers remained:', msg.serverIds);
 				}
 			}
@@ -493,27 +561,35 @@ function terminal(signal, opts) {
 	});
 }
 
-function restart(opts) {
+function restart(opts)
+{
 	const id = `pomelo_restart_${Date.now()}`;
 	const serverIds = [];
 	let type = null;
-	if (opts.id) {
+	if (opts.id)
+	{
 		serverIds.push(opts.id);
 	}
-	if (opts.type) {
+	if (opts.type)
+	{
 		type = opts.type;
 	}
-	connectToMaster(id, opts, function(client) {
+	connectToMaster(id, opts, function(client)
+	{
 		client.request(co.moduleId, {signal : 'restart',
 			ids    : serverIds,
-			type   : type}, function(err, fails) {
-			if (err) {
+			type   : type}, function(err, fails)
+		{
+			if (err)
+			{
 				console.error(err);
 			}
-			else if (fails.length) {
+			else if (fails.length)
+			{
 				console.info('restart fails server ids: %j', fails);
 			}
-			else {
+			else
+			{
 				console.info(RESTART_SERVER_INFO);
 			}
 			process.exit(0);
@@ -521,16 +597,20 @@ function restart(opts) {
 	});
 }
 
-function connectToMaster(id, opts, cb) {
+function connectToMaster(id, opts, cb)
+{
 	const client = new adminClient({
 		username : opts.username,
 		password : opts.password,
 		md5      : true});
-	client.connect(id, opts.host, opts.port, function(err) {
-		if (err) {
+	client.connect(id, opts.host, opts.port, function(err)
+	{
+		if (err)
+		{
 			abort(CONNECT_ERROR + err.red);
 		}
-		if (typeof cb === 'function') {
+		if (typeof cb === 'function')
+		{
 			cb(client);
 		}
 	});
@@ -541,13 +621,16 @@ function connectToMaster(id, opts, cb) {
  *
  * @param {String} option for `startMasterha` operation
  */
-function startMasterha(opts) {
+function startMasterha(opts)
+{
 	const configFile = path.join(opts.directory, constants.FILEPATH.MASTER_HA);
-	if (!fs.existsSync(configFile)) {
+	if (!fs.existsSync(configFile))
+	{
 		abort(MASTER_HA_NOT_FOUND);
 	}
 	const masterha = require(configFile).masterha;
-	for (let i = 0; i < masterha.length; i++) {
+	for (let i = 0; i < masterha.length; i++)
+	{
 		const server = masterha[i];
 		server.mode = constants.RESERVED.STAND_ALONE;
 		server.masterha = 'true';
@@ -562,9 +645,12 @@ function startMasterha(opts) {
  * @param {String} path
  * @param {Function} fn
  */
-function emptyDirectory(path, fn) {
-	fs.readdir(path, function(err, files) {
-		if (err && err.code !== 'ENOENT') {
+function emptyDirectory(path, fn)
+{
+	fs.readdir(path, function(err, files)
+	{
+		if (err && err.code !== 'ENOENT')
+		{
 			abort(FILEREAD_ERROR);
 		}
 		fn(!files || !files.length);
@@ -577,8 +663,10 @@ function emptyDirectory(path, fn) {
  * @param {String} msg
  * @param {Function} fn
  */
-function confirm(msg, fn) {
-	prompt(msg, function(val) {
+function confirm(msg, fn)
+{
+	prompt(msg, function(val)
+	{
 		fn(/^ *y(es)?/i.test(val));
 	});
 }
@@ -589,15 +677,19 @@ function confirm(msg, fn) {
  * @param {String} msg
  * @param {Function} fn
  */
-function prompt(msg, fn) {
-	if (msg[msg.length - 1] === ' ') {
+function prompt(msg, fn)
+{
+	if (msg[msg.length - 1] === ' ')
+	{
 		process.stdout.write(msg);
 	}
-	else {
+	else
+	{
 		console.log(msg);
 	}
 	process.stdin.setEncoding('ascii');
-	process.stdin.once('data', function(data) {
+	process.stdin.once('data', function(data)
+	{
 		fn(data);
 	}).resume();
 }
@@ -607,7 +699,8 @@ function prompt(msg, fn) {
  *
  * @param {String} str
  */
-function abort(str) {
+function abort(str)
+{
 	console.error(str);
 	process.exit(1);
 }
@@ -618,26 +711,34 @@ function abort(str) {
  * @param {String} origin
  * @param {String} target
  */
-function copy(origin, target) {
-	if (!fs.existsSync(origin)) {
+function copy(origin, target)
+{
+	if (!fs.existsSync(origin))
+	{
 		abort(`${origin}does not exist.`);
 	}
-	if (!fs.existsSync(target)) {
+	if (!fs.existsSync(target))
+	{
 		mkdir(target);
 		console.log('   create : '.green + target);
 	}
-	fs.readdir(origin, function(err, datalist) {
-		if (err) {
+	fs.readdir(origin, function(err, datalist)
+	{
+		if (err)
+		{
 			abort(FILEREAD_ERROR);
 		}
-		for (let i = 0; i < datalist.length; i++) {
+		for (let i = 0; i < datalist.length; i++)
+		{
 			const oCurrent = path.resolve(origin, datalist[i]);
 			const tCurrent = path.resolve(target, datalist[i]);
-			if (fs.statSync(oCurrent).isFile()) {
+			if (fs.statSync(oCurrent).isFile())
+			{
 				fs.writeFileSync(tCurrent, fs.readFileSync(oCurrent, ''), '');
 				console.log('   create : '.green + tCurrent);
 			}
-			else if (fs.statSync(oCurrent).isDirectory()) {
+			else if (fs.statSync(oCurrent).isDirectory())
+			{
 				copy(oCurrent, tCurrent);
 			}
 		}
@@ -650,13 +751,17 @@ function copy(origin, target) {
  * @param {String} path
  * @param {Function} fn
  */
-function mkdir(path, fn) {
-	mkdirp(path, '0755', function(err) {
-		if (err) {
+function mkdir(path, fn)
+{
+	mkdirp(path, '0755', function(err)
+	{
+		if (err)
+		{
 			throw err;
 		}
 		console.log('   create : '.green + path);
-		if (typeof fn === 'function') {
+		if (typeof fn === 'function')
+		{
 			fn();
 		}
 	});
@@ -667,24 +772,27 @@ function mkdir(path, fn) {
  *
  * @param {Function} cb
  */
-function connectorType(cb) {
-	prompt('Please select underly connector, 1 for websocket(native socket), 2 for socket.io, 3 for wss, 4 for socket.io(wss), 5 for udp, 6 for mqtt: [1]', function(msg) {
-		switch (msg.trim()) {
-		case '':
-			cb(1);
-			break;
-		case '1':
-		case '2':
-		case '3':
-		case '4':
-		case '5':
-		case '6':
-			cb(msg.trim());
-			break;
-		default:
-			console.log(`${'Invalid choice! Please input 1 - 5.'.red}\n`);
-			connectorType(cb);
-			break;
+function connectorType(cb)
+{
+	prompt('Please select underly connector, 1 for websocket(native socket), 2 for socket.io, 3 for wss, 4 for socket.io(wss), 5 for udp, 6 for mqtt: [1]', function(msg)
+	{
+		switch (msg.trim())
+		{
+			case '':
+				cb(1);
+				break;
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+				cb(msg.trim());
+				break;
+			default:
+				console.log(`${'Invalid choice! Please input 1 - 5.'.red}\n`);
+				connectorType(cb);
+				break;
 		}
 	});
 }
@@ -694,21 +802,26 @@ function connectorType(cb) {
  *
  * @param {Object} server server information
  */
-function runServer(server) {
+function runServer(server)
+{
 	let cmd, key;
 	const main = path.resolve(server.home, 'app.js');
-	if (utils.isLocal(server.host)) {
+	if (utils.isLocal(server.host))
+	{
 		const options = [];
 		options.push(main);
-		for (key in server) {
+		for (key in server)
+		{
 			options.push(util.format('%s=%s', key, server[key]));
 		}
 		starter.localrun(process.execPath, null, options);
 	}
-	else {
+	else
+	{
 		cmd = util.format('cd "%s" && "%s"', server.home, process.execPath);
 		cmd += util.format(' "%s" ', main);
-		for (key in server) {
+		for (key in server)
+		{
 			cmd += util.format(' %s=%s ', key, server[key]);
 		}
 		starter.sshrun(cmd, server.host);
