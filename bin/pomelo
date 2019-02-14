@@ -8,7 +8,8 @@ const fs = require('fs'),
 	path = require('path'),
 	util = require('util'),
 	cliff = require('cliff'),
-	mkdirp = require('./mkdirp'),
+	mkdir = require('./mkdirp'),
+	rmdir = require('./mkdirp').rmdir,
 	co = require('../lib/modules/console'),
 	utils = require('../lib/util/utils'),
 	starter = require('../lib/master/starter'),
@@ -197,28 +198,7 @@ function createApplicationAt(ph, type)
 	copy(path.join(__dirname, '../template/'), ph);
 	mkdir(path.join(ph, 'game-server/logs'));
 	mkdir(path.join(ph, 'shared'));
-	// rmdir -r
-	const rmdir = function(dir)
-	{
-		const list = fs.readdirSync(dir);
-		for (let i = 0; i < list.length; i++)
-		{
-			const filename = path.join(dir, list[i]);
-			const stat = fs.statSync(filename);
-			if (filename === '.' || filename === '..')
-			{
-			}
-			else if (stat.isDirectory())
-			{
-				rmdir(filename);
-			}
-			else
-			{
-				fs.unlinkSync(filename);
-			}
-		}
-		fs.rmdirSync(dir);
-	};
+
 	setTimeout(() =>
 	{
 		let unLinkFiles = [];
@@ -396,9 +376,9 @@ function start(opts)
 	const logDir = path.resolve(opts.directory, 'logs');
 	if (!fs.existsSync(logDir))
 	{
-		fs.mkdir(logDir);
+		mkdir(logDir);
 	}
-  
+
 	let ls;
 	const type = opts.type || constants.RESERVED.ALL;
 	const params = [absScript, `env=${opts.env}`, `type=${type}`];
@@ -467,9 +447,9 @@ function list(opts)
 				{
 					return 1;
 				}
-				
+
 				return 0;
-				
+
 			};
 			servers.sort(comparer);
 			const rows = [];
@@ -741,28 +721,6 @@ function copy(origin, target)
 			{
 				copy(oCurrent, tCurrent);
 			}
-		}
-	});
-}
-
-/**
- * Mkdir -p.
- *
- * @param {String} path
- * @param {Function} fn
- */
-function mkdir(path, fn)
-{
-	mkdirp(path, '0755', function(err)
-	{
-		if (err)
-		{
-			throw err;
-		}
-		console.log('   create : '.green + path);
-		if (typeof fn === 'function')
-		{
-			fn();
 		}
 	});
 }

@@ -4,5 +4,8 @@ node_js:
   - "6.x"
   - "7.x"
   - "8.x"
+  - "9.x"
+  - "10.x"
+  - "11.x"
 before_script:
   - npm install -g grunt-cli
