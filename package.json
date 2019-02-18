@@ -1,6 +1,6 @@
 {
   "name": "pomelo-upgrade",
-  "version": "2.1.5",
+  "version": "2.1.9",
   "description": "网易Pomelo升级版本",
   "private": false,
   "homepage": "https://github.com/frank198/pomelo-upgrade#readme",
@@ -32,34 +32,34 @@
     "pomelo": "./bin/pomelo"
   },
   "dependencies": {
-    "async": "^2.x",
+    "async": "^2.6.2",
     "cliff": "^0.1.10",
-    "commander": "^2.x",
-    "crc": "^3.x",
-    "mqtt": "^2.x",
+    "commander": "^2.19.0",
+    "crc": "^3.8.0",
+    "mqtt": "^2.18.8",
     "node-bignumber": "^1.x",
-    "pomelo-admin": "1.0.0",
+    "pomelo-admin-upgrade": "^1.0.1",
     "pomelo-loader-upgrade": "^0.0.2",
-    "pomelo-logger-upgrade": "^1.x",
+    "pomelo-logger-upgrade": "^2.0.1",
     "pomelo-protobuf": "0.4.0",
     "pomelo-protocol": "0.1.6",
-    "pomelo-rpc-upgrade": "^2.0.0",
-    "pomelo-scheduler": "0.3.9",
-    "socket.io": "^2.x",
-    "ws": "^3.x"
+    "pomelo-rpc-upgrade": "^2.0.2",
+    "pomelo-scheduler-upgrade": "^1.x",
+    "socket.io": "^2.2.0",
+    "ws": "^3.3.3"
   },
   "devDependencies": {
-    "blanket": "~1.1.6",
-    "eslint": "*",
-    "grunt": "*",
-    "grunt-contrib-clean": "*",
-    "grunt-eslint": "^20.1.0",
+    "blanket": "^1.2.3",
+    "eslint": "^5.14.0",
+    "grunt": "^1.0.3",
+    "grunt-contrib-clean": "^2.x",
+    "grunt-eslint": "^21.x",
     "grunt-mocha-test": "^0.13.3",
     "load-grunt-tasks": "^3.5.2",
-    "mocha": "^3.5.3",
-    "muk": ">=0.0.1",
-    "should": "^13.1.2",
-    "socket.io-client": "^2.0.3"
+    "mocha": "^5.2.0",
+    "muk": "^0.5.3",
+    "should": "^13.2.3",
+    "socket.io-client": "^2.2.0"
   },
   "engines": {
     "node": ">=4.0.0"

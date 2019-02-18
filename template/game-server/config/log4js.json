@@ -1,107 +1,107 @@
 {
-  "appenders": [
-    {
+  "appenders": {
+    "console": {
       "type": "console"
     },
-    {
+    "con_log":{
       "type": "file",
-      "filename": "${opts:base}/logs/con-log-${opts:serverId}.log",
+      "filename": "${opts:base}/logs/con_log-${opts:serverId}.log",
       "pattern": "connector",
       "maxLogSize": 1048576,
       "layout": {
         "type": "basic"
       },
-      "backups": 5,
-      "category": "con-log"
+      "backups": 5
     },
-    {
+    "rpc_log":{
       "type": "file",
-      "filename": "${opts:base}/logs/rpc-log-${opts:serverId}.log",
+      "filename": "${opts:base}/logs/rpc_log-${opts:serverId}.log",
       "maxLogSize": 1048576,
       "layout": {
-        "type": "basic"
-      },
-      "backups": 5,
-      "category": "rpc-log"
-    },
-    {
-      "type": "file",
-      "filename": "${opts:base}/logs/forward-log-${opts:serverId}.log",
-      "maxLogSize": 1048576,
-      "layout": {
-        "type": "basic"
-      },
-      "backups": 5,
-      "category": "forward-log"
-    },
-    {
-     "type": "file",
-     "filename": "${opts:base}/logs/rpc-debug-${opts:serverId}.log",
-     "maxLogSize": 1048576,
-     "layout": {
       "type": "basic"
-     },
-     "backups": 5,
-     "category": "rpc-debug"
+      },
+      "backups": 5
     },
-    {
+    "forward_log":{
       "type": "file",
-      "filename": "${opts:base}/logs/crash.log",
+      "filename": "${opts:base}/logs/forward_log-${opts:serverId}.log",
       "maxLogSize": 1048576,
       "layout": {
-        "type": "basic"
+      "type": "basic"
+      },
+      "backups": 5
+    },
+    "rpc_debug":{
+      "type": "file",
+      "filename": "${opts:base}/logs/rpc_debug-${opts:serverId}.log",
+      "maxLogSize": 1048576,
+      "layout": {
+      "type": "basic"
       },
       "backups": 5,
-      "category":"crash-log"
+      "category": "rpc-debug"
     },
-    {
+    "crash_log":{
       "type": "file",
-      "filename": "${opts:base}/logs/admin.log",
+      "filename": "${opts:base}/logs/crash_log.log",
       "maxLogSize": 1048576,
       "layout": {
-          "type": "basic"
-        }
-      ,"backups": 5,
-      "category":"admin-log"
+      "type": "basic"
+      },
+      "backups": 5
     },
-    {
+    "admin_log":{
+      "type": "file",
+      "filename": "${opts:base}/logs/admin_log.log",
+      "maxLogSize": 1048576,
+      "layout": {
+      "type": "basic"
+      },
+      "backups": 5
+    },
+    "pomelo":{
       "type": "file",
       "filename": "${opts:base}/logs/pomelo-${opts:serverId}.log",
       "maxLogSize": 1048576,
       "layout": {
-          "type": "basic"
-        }
-      ,"backups": 5,
-      "category":"pomelo"
+      "type": "basic"
+      }
+      , "backups": 5,
+      "category": "pomelo"
     },
-    {
+    "pomelo_admin":{
       "type": "file",
-      "filename": "${opts:base}/logs/pomelo-admin.log",
+      "filename": "${opts:base}/logs/pomelo_admin.log",
       "maxLogSize": 1048576,
       "layout": {
-          "type": "basic"
-        }
-      ,"backups": 5,
-      "category":"pomelo-admin"
+      "type": "basic"
+      },
+      "backups": 5
     },
-    {
+    "pomelo_rpc":{
       "type": "file",
-      "filename": "${opts:base}/logs/pomelo-rpc-${opts:serverId}.log",
+      "filename": "${opts:base}/logs/pomelo_rpc-${opts:serverId}.log",
       "maxLogSize": 1048576,
       "layout": {
-          "type": "basic"
-        }
-      ,"backups": 5,
-      "category":"pomelo-rpc"
+      "type": "basic"
+      },
+      "backups": 5
     }
-  ],
-
-  "levels": {
-    "rpc-log" : "ERROR",
-    "forward-log": "ERROR"
+  },
+  "categories": {
+    "default": { "appenders": ["console", "rpc_log", "forward_log", "con_log", "rpc_debug",
+      "crash_log", "admin_log", "pomelo", "pomelo_admin", "pomelo_rpc"], "level": "fatal" }
   },
 
   "replaceConsole": true,
 
-  "lineDebug": false
+  "lineDebug": false,
+  "fileDebug": true,
+  "methodDebug": false,
+
+  "reloadSecs": 5,
+  "reloadLevels": {
+    "rpc_log" : "ERROR",
+    "forward_log": "ERROR"
+  }
 }
