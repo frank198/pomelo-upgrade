@@ -1,0 +1,26 @@
+{
+  "development":
+  {
+    "master":
+    [
+      {"id": "dayTime", "time": "0-5 * * * * *", "action": "MasterCronTest.dayTime"},
+      {"id": "weatherRandom", "time": "0 1 * * * *", "action": "MasterCronTest.weatherRandom"},
+      {"id": "seasonTime", "time": "0 0 0 * * 1", "action": "MasterCronTest.seasonTime"},
+      {"id": "date", "time": "0 0/1 0 * * *", "action": "MasterCronTest.date"}
+    ]
+  },
+  "production":
+  {
+    "player":
+    [
+      {"id": "playerSyn", "time": "0 0/2 * * * *", "action": "synCronData.synCronData"}
+    ],
+    "timeSystem":
+    [
+      {"id": "dayTime", "time": "0 0,30 * * * *", "action": "synCronData.dayTime"},
+      {"id": "weatherRandom", "time": "0 3,33 * * * *", "action": "synCronData.weatherRandom"},
+      {"id": "seasonTime", "time": "0 0 0 * * 1", "action": "synCronData.seasonTime"},
+      {"id": "date", "time": "0 0 0/2 * * *", "action": "synCronData.date"}
+    ]
+  }
+}

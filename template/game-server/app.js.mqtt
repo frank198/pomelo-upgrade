@@ -1,9 +1,10 @@
-var pomelo = require('pomelo');
+'use strict';
+const pomelo = require('pomelo');
 
 /**
  * Init app for client.
  */
-var app = pomelo.createApp();
+const app = pomelo.createApp();
 app.set('name', '$');
 
 // app configuration
