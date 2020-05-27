@@ -145,7 +145,7 @@ program.command('masterha')
 program.command('*')
     .action(function()
     {
-        console.log(COMMAND_ERROR);
+        console.info(COMMAND_ERROR);
     });
 
 program.parse(process.argv);
@@ -157,7 +157,7 @@ program.parse(process.argv);
  */
 function init(path)
 {
-    console.log(INIT_PROJ_NOTICE);
+    console.info(INIT_PROJ_NOTICE);
     connectorType(function(type)
     {
         emptyDirectory(path, function(empty)
@@ -397,7 +397,7 @@ function start(opts)
             stdio    : 'ignore'
         });
         ls.unref();
-        console.log(DAEMON_INFO);
+        console.info(DAEMON_INFO);
         process.exit(0);
     }
     else
@@ -405,11 +405,11 @@ function start(opts)
         ls = spawn(process.execPath, params);
         ls.stdout.on('data', function(data)
         {
-            console.log(data.toString());
+            console.info(data.toString());
         });
         ls.stderr.on('data', function(data)
         {
-            console.log(data.toString());
+            console.info(data.toString());
         });
     }
 }
@@ -465,7 +465,7 @@ function list(opts)
             {
                 rows.push([server.serverId, server.serverType, server.pid, server.rss, server.heapTotal, server.heapUsed, server.uptime]);
             });
-            console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'cyan', 'magenta', 'white', 'yellow']));
+            console.info(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'cyan', 'magenta', 'white', 'yellow']));
             process.exit(0);
         });
     });
@@ -536,11 +536,11 @@ function terminal(signal, opts)
             {
                 if (msg.code === 'ok')
                 {
-                    console.log('All the servers have been terminated!');
+                    console.info('All the servers have been terminated!');
                 }
                 else
                 {
-                    console.log('There may be some servers remained:', msg.serverIds);
+                    console.info('There may be some servers remained:', msg.serverIds);
                 }
             }
             process.exit(0);
@@ -672,7 +672,7 @@ function prompt(msg, fn)
     }
     else
     {
-        console.log(msg);
+        console.info(msg);
     }
     process.stdin.setEncoding('ascii');
     process.stdin.once('data', function(data)
@@ -707,7 +707,7 @@ function copy(origin, target)
     if (!fs.existsSync(target))
     {
         mkdir(target);
-        console.log('   create : '.green + target);
+        console.info('   create : '.green + target);
     }
     fs.readdir(origin, function(err, datalist)
     {
@@ -722,7 +722,7 @@ function copy(origin, target)
             if (fs.statSync(oCurrent).isFile())
             {
                 fs.writeFileSync(tCurrent, fs.readFileSync(oCurrent, ''), '');
-                console.log('   create : '.green + tCurrent);
+                console.info('   create : '.green + tCurrent);
             }
             else if (fs.statSync(oCurrent).isDirectory())
             {
@@ -755,7 +755,7 @@ function connectorType(cb)
                 cb(msg.trim());
                 break;
             default:
-                console.log(`${'Invalid choice! Please input 1 - 5.'.red}\n`);
+                console.info(`${'Invalid choice! Please input 1 - 5.'.red}\n`);
                 connectorType(cb);
                 break;
         }

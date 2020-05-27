@@ -22,6 +22,6 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-console.log("Web server has started.\nPlease log on http://127.0.0.1:3001/index.html");
+console.info("Web server has started.\nPlease log on http://127.0.0.1:3001/index.html");
 
 app.listen(3001);

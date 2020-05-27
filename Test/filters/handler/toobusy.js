@@ -28,13 +28,13 @@ describe('#toobusyFilter',function() {
         function load() {
             service.beforeFilter(null,mockSession,function(err, resp) {
                 should.exist(mockSession);
-                console.log('err: ' + err);
+                console.info('err: ' + err);
                 if (err) {
                     exit = true;
                 }
             });
 
-            console.log('exit: ' + exit);
+            console.info('exit: ' + exit);
             if (exit) {
                 return done();
             }
