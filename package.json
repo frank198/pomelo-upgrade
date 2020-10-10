@@ -1,6 +1,6 @@
 {
   "name": "pomelo-upgrade",
-  "version": "3.2.1",
+  "version": "3.2.3",
   "description": "网易Pomelo升级版本",
   "private": false,
   "homepage": "https://github.com/frank198/pomelo-upgrade#readme",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "async": "^3.x",
-    "cliff": "^0.1.10",
+    "colors": "~1.4",
     "commander": "^5.x",
     "crc": "^3.x",
     "mqtt": "^4.x",
