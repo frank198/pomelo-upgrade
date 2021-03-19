@@ -24,9 +24,8 @@
     "pomelo": "./bin/pomelo"
   },
   "dependencies": {
-    "async": "^3.x",
-    "colors": "~1.4",
-    "commander": "^5.x",
+    "colors": "^1.x",
+    "commander": "^7.x",
     "crc": "^3.x",
     "mqtt": "^4.x",
     "node-bignumber": "^1.x",
@@ -37,21 +36,21 @@
     "pomelo-protobuf": "^0.4.0",
     "pomelo-protocol": "^0.1.6",
     "pomelo-rpc-upgrade": "^3.x",
-    "socket.io": "^2.x",
+    "socket.io": "^4.x",
     "ws": "^7.x"
   },
   "devDependencies": {
-    "blanket": "^1.2.3",
-    "eslint": "^7.x",
-    "grunt": "^1.0.3",
-    "grunt-contrib-clean": "^2.x",
-    "grunt-eslint": "^22.x",
-    "grunt-mocha-test": "^0.13.3",
-    "load-grunt-tasks": "^5.x",
-    "mocha": "^7.x",
-    "muk": "^0.5.3",
-    "should": "^13.2.3",
-    "socket.io-client": "^2.x"
+    "blanket": "*",
+    "eslint": "*",
+    "grunt": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-eslint": "*",
+    "grunt-mocha-test": "*",
+    "load-grunt-tasks": "*",
+    "mocha": "*",
+    "muk": "*",
+    "should": "*",
+    "socket.io-client": "*"
   },
   "engines": {
     "node": ">=10.0.0"
